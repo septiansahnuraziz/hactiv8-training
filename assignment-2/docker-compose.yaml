@@ -1,6 +1,9 @@
 version: '3'
 
 services:
+  webapps:
+    build:
+      dockerfile: ./Dockerfile
   postgres:
     image: postgres:13.2-alpine
     environment:
