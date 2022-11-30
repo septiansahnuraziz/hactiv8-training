@@ -1,14 +1,30 @@
 version: '3'
 
 services:
-  webapps:
-    build:
-      dockerfile: ./Dockerfile
-  postgres:
+  postgres-test:
     image: postgres:13.2-alpine
+    restart: always
     environment:
       - POSTGRES_USER=postgresuser
       - POSTGRES_PASSWORD=postgrespassword
       - POSTGRES_DB=postgres
     ports:
-      - 5435:5432
+      - 5437:5432
+    networks:
+      - assignment2
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - 8000:8000
+    depends_on:
+      - postgres-test
+    networks:
+      - assignment2
+
+
+networks:
+  assignment2:
+    driver: bridge
